@@ -41,7 +41,7 @@ model.compile(loss='mean_squared_error', optimizer='sgd', metrics=['accuracy'])
 hodnoty=[]
 # zbehnutie siete 20 krat
 # ulozime vysledne skora
-for _ in range(10):
+for _ in range(20):
     model.fit(train_x, categorical)
     scores = model.evaluate(train_x, categorical)
     hodnoty.append(scores[1]*100)
