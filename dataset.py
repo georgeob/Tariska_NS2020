@@ -102,9 +102,26 @@ print("Minimálne skóre: {:.2f}%".format(min(hodnoty)))
 # nasej siete, pretoze sme pravidelnejsie az takmer vzdy dosahovali maximalnu hodnotu
 # uspesnosti
 # dalej by bolo dobre sa sustredit na vhodnejsie aktivacne funkcie pripadne optimizer
+#%% 4.5. 2020 Skusanie roznych optimizerov
+# Pouzijeme update-nuty model2 bez zmien vo vrstvách
+# optimzery: sgd, rmsprop, adam, nadam, adagrad, adadelta, adamax
+model2.compile(loss='mean_squared_error', optimizer='sgd', metrics=['accuracy'])
+hodnoty=[]
 
+for _ in range(50):
+    # pocet epoch nastavime na 5
+    model.fit(train_x, categorical, epochs=5)
+    scores = model.evaluate(train_x, categorical)
+    hodnoty.append(scores[1]*100)
 
+# ulozenie hodnot
+maxsgd = max(hodnoty)
+minsgd = min(hodnoty)
 
+# vyskusali sme vsetky spomenute optimizery, vysledky vsak boli pri vsetkych pripadoch
+# takmer rovnake, zriedka sa nam podarilo dosiahnut vyssiu uspesnost okolo 45%, avsak
+# takychto pripadov bolo velmi malo a preto nateraz nehame optimizer na hodnote sgd
+#%% Uprava datasetu, prehodnotenie vstupnych parametrov X a y
 
 
 
