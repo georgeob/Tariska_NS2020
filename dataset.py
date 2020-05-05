@@ -121,7 +121,71 @@ minsgd = min(hodnoty)
 # vyskusali sme vsetky spomenute optimizery, vysledky vsak boli pri vsetkych pripadoch
 # takmer rovnake, zriedka sa nam podarilo dosiahnut vyssiu uspesnost okolo 45%, avsak
 # takychto pripadov bolo velmi malo a preto nateraz nehame optimizer na hodnote sgd
-#%% Uprava datasetu, prehodnotenie vstupnych parametrov X a y
+#%% 5.5. 2020 Uprava datasetu, prehodnotenie vstupnych parametrov X a y
+# Hviezdy vieme klasifikovat na zaklade parametrov Luminosity(1), Spectral class(6), Magnitude(3) a Temperature(0)
+# Mozeme si dopomoct aj parametrom Star color(5), ktory vsak mame ako string a je potrebne ho prekonvertovat 
+# na numericku hodnotu
+
+stars_dict = {}
+i = 0
+for _, row in stars_data_raw['Star color'].iteritems():
+    farba = row.lower().replace(" ", "").replace("-", "")
+    if farba not in stars_dict.keys():
+        stars_dict[farba] = i
+        i = i+1
+
+for i, row in stars_data_raw['Star color'].iteritems():
+    farba = row.lower().replace(" ", "").replace("-", "")
+    stars_data_raw.at[i, 'Star color'] = stars_dict[farba]
+
+# vznikla potreba prekonvertovat aj stlpec Spectral class na numericku hodnotu
+spectral_dict = {}
+for _, c in stars_data_raw['Spectral Class'].iteritems():
+    if c not in spectral_dict.keys():
+        spectral_dict[c] = i
+        i = i+1
+for i, row in stars_data_raw['Spectral Class'].iteritems():
+    stars_data_raw.at[i, 'Spectral Class'] = spectral_dict[row] 
+
+#%% 5.5. 2020 Definovanie nových vstupných parametrov, vytvorenie nového modelu,
+# použitie aktivačných funkcií ReLU a softmax, 150 iterácií učenia
+X = stars_data_raw.iloc[:,[0,1,3,6]].values
+y = stars_data_raw.iloc[:, 4].values
+
+categorical_y = np_utils.to_categorical(y)
+
+nn_model = Sequential()
+nn_model.add(Dense(100, input_dim=4, activation='relu'))
+nn_model.add(Dense(100, activation='relu'))
+nn_model.add(Dense(100, activation='relu'))
+nn_model.add(Dense(output_dim=6, activation='softmax'))
+
+nn_model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+nn_model.fit(X, categorical_y, epochs=150)
+nn_scores = nn_model.evaluate(X, categorical_y)
+print(nn_scores[1]*100)
+
+# výsledný model , aktivačné funkcie na skrytých vrstvách: ReLU, aktiv. funkcia na
+# výstupe: softmax
+# 4 vstupné parametre: Temperature, Luminostity, Magnitude, Spectral class
+# 3 skryté vrstvy po 100 neurónov
+# 6 neurónov vo výstupe
+# optimizer: adam
+# maximálna dosiahnutá úspešnosť 75.83333253860474% po 150 iteráciach učenia (epochs)
+# vstupné dáta sme nerozdelovali na trénovacie a testovacie pretože náš dataset
+# obsahuje len 240 riadkov, čo je pre tento model klasifikácie málo
+
+# vizualizácia nebola možná v tomto súbore pretože som mal problémy s registrovaním
+# grafickej karty v tensorflow kerneli, preto sa ju pokúsim urobiť v Azure jupyter NTBs
+
+
+
+
+
+
+
+
+
 
 
 
