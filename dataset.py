@@ -149,13 +149,13 @@ for i, row in stars_data_raw['Spectral Class'].iteritems():
 
 #%% 5.5. 2020 Definovanie nových vstupných parametrov, vytvorenie nového modelu,
 # použitie aktivačných funkcií ReLU a softmax, 150 iterácií učenia
-X = stars_data_raw.iloc[:,[0,1,3,6]].values
+X = stars_data_raw.iloc[:,[0,1,3,5,6]].values
 y = stars_data_raw.iloc[:, 4].values
 
 categorical_y = np_utils.to_categorical(y)
 
 nn_model = Sequential()
-nn_model.add(Dense(100, input_dim=4, activation='relu'))
+nn_model.add(Dense(100, input_dim=5, activation='relu'))
 nn_model.add(Dense(100, activation='relu'))
 nn_model.add(Dense(100, activation='relu'))
 nn_model.add(Dense(output_dim=6, activation='softmax'))
