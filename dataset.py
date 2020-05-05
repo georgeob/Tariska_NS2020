@@ -89,7 +89,7 @@ hodnoty=[]
 
 for _ in range(20):
     # pocet epoch nastavime na 5
-    model.fit(train_x, categorical, epochs=5)
+    model2.fit(train_x, categorical, epochs=5)
     scores = model.evaluate(train_x, categorical)
     hodnoty.append(scores[1]*100)
 
@@ -110,17 +110,17 @@ hodnoty=[]
 
 for _ in range(50):
     # pocet epoch nastavime na 5
-    model.fit(train_x, categorical, epochs=5)
+    model2.fit(train_x, categorical, epochs=5)
     scores = model.evaluate(train_x, categorical)
     hodnoty.append(scores[1]*100)
 
 # ulozenie hodnot
-maxsgd = max(hodnoty)
-minsgd = min(hodnoty)
+# vypisanie maximalneho a minimalneho skora uspesnosti siete
+print("Maximálne skóre: {:.2f}%".format(max(hodnoty)))
+print("Minimálne skóre: {:.2f}%".format(min(hodnoty)))
 
 # vyskusali sme vsetky spomenute optimizery, vysledky vsak boli pri vsetkych pripadoch
-# takmer rovnake, zriedka sa nam podarilo dosiahnut vyssiu uspesnost okolo 45%, avsak
-# takychto pripadov bolo velmi malo a preto nateraz nehame optimizer na hodnote sgd
+# takmer rovnake, preto nateraz nehame optimizer na hodnote sgd
 #%% 5.5. 2020 Uprava datasetu, prehodnotenie vstupnych parametrov X a y
 # Hviezdy vieme klasifikovat na zaklade parametrov Luminosity(1), Spectral class(6), Magnitude(3) a Temperature(0)
 # Mozeme si dopomoct aj parametrom Star color(5), ktory vsak mame ako string a je potrebne ho prekonvertovat 
