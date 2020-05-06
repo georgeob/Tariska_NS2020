@@ -160,7 +160,7 @@ nn_model.add(Dense(100, activation='relu'))
 nn_model.add(Dense(100, activation='relu'))
 nn_model.add(Dense(output_dim=6, activation='softmax'))
 
-nn_model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+nn_model.compile(optimizer="adamax", loss='categorical_crossentropy', metrics=['accuracy'])
 nn_model.fit(X, categorical_y, epochs=150)
 nn_scores = nn_model.evaluate(X, categorical_y)
 print(nn_scores[1]*100)
@@ -170,7 +170,8 @@ print(nn_scores[1]*100)
 # 4 vstupné parametre: Temperature, Luminostity, Magnitude, Spectral class
 # 3 skryté vrstvy po 100 neurónov
 # 6 neurónov vo výstupe
-# optimizer: adam
+# optimizer: adam EDIT:6.5.2020 Zmena za adamax na základe porovnania 
+# vypracovaného v jupyter notebooku k tomuto projektu
 # maximálna dosiahnutá úspešnosť 75.83333253860474% po 150 iteráciach učenia (epochs)
 # vstupné dáta sme nerozdelovali na trénovacie a testovacie pretože náš dataset
 # obsahuje len 240 riadkov, čo je pre tento model klasifikácie málo
