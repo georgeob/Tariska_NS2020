@@ -177,12 +177,52 @@ print(nn_scores[1]*100)
 
 # vizualizácia nebola možná v tomto súbore pretože som mal problémy s registrovaním
 # grafickej karty v tensorflow kerneli, preto sa ju pokúsim urobiť v Azure jupyter NTBs
+#%% 6.5.2020 Pridanie validation split-u do metódy fit a vizualizácia siete
 
+history = nn_model.fit(X, categorical_y, epochs=150, validation_split=0.2)
+nn_scores = nn_model.evaluate(X, categorical_y)
+print(nn_scores[1]*100)
 
+# Dosiahnutá úspešnosť 84.16%
 
+# Vizualizácia riešená v jupyter notebooks, tu je len použitý kód
+# Vykreslenie modelu
+from keras.utils import plot_model
+plot_model(nn_model, to_file='nn_model.png', show_shapes=True, show_layer_names=False, expand_nested=False)
 
+# Import potrebnej knižnice a vypísanie dostupných hodnôt z premennej history
+import matplotlib.pyplot as plt
+print(history.history.keys())
 
+# Vykreslenie presnosti siete počas trénovania a presnosť pri validácii
+plt.figure(1)
+plt.plot(history.history['accuracy'])
+plt.title("Trénovanie: Presnosť")
+plt.xlabel("Epochy - iterácie učenia")
+plt.ylabel("Percento úspešnosti / 100")
+plt.grid()
 
+plt.figure(2)
+plt.plot(history.history['val_accuracy'])
+plt.title("Trénovanie: Presnosť pri validácii")
+plt.xlabel("Epochy - iterácie učenia")
+plt.ylabel("Percento úspešnosti / 100")
+plt.grid()
+
+# Vykreslenie chyby pri trénovaní a pri validácii
+plt.figure(3)
+plt.plot(history.history['loss'])
+plt.title("Trénovanie: Chyba")
+plt.xlabel("Epochy - iterácie učenia")
+plt.ylabel("Hodnota chyby")
+plt.grid()
+
+plt.figure(4)
+plt.plot(history.history['val_loss'])
+plt.title("Trénovanie: Chyba pri validácii")
+plt.xlabel("Epochy - iterácie učenia")
+plt.ylabel("Hodnota chyby")
+plt.grid()
 
 
 
