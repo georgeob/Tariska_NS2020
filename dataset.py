@@ -154,8 +154,13 @@ y = stars_data_raw.iloc[:, 4].values
 
 categorical_y = np_utils.to_categorical(y)
 
+
+# EDIT 8.5.2020 Zvýšenie počtu vrstiev (Testované v jupyter notebooks)
 nn_model = Sequential()
 nn_model.add(Dense(100, input_dim=5, activation='relu'))
+nn_model.add(Dense(100, activation='relu'))
+nn_model.add(Dense(100, activation='relu'))
+nn_model.add(Dense(100, activation='relu'))
 nn_model.add(Dense(100, activation='relu'))
 nn_model.add(Dense(100, activation='relu'))
 nn_model.add(Dense(output_dim=6, activation='softmax'))
@@ -184,7 +189,7 @@ history = nn_model.fit(X, categorical_y, epochs=150, validation_split=0.2)
 nn_scores = nn_model.evaluate(X, categorical_y)
 print(nn_scores[1]*100)
 
-# Dosiahnutá úspešnosť 84.16%
+# Dosiahnutá úspešnosť 84.17%
 
 # Vizualizácia riešená v jupyter notebooks, tu je len použitý kód
 # Vykreslenie modelu
